@@ -21,7 +21,13 @@ const fetchAPIData = async (req: SearchRequest, res: Response, next: NextFunctio
   next()
 }
 
-searchRouter.get("/:apiName", 
+const locals = async (req: SearchRequest, res: Response, next: NextFunction) => {
+  req.locals = {}
+  next()
+}
+
+searchRouter.get("/:apiName",
+  locals,
   validateSearchRequest, 
   checkCache,
   fetchAPIData,
