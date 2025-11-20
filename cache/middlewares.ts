@@ -16,7 +16,8 @@ const checkCache = async (req: SearchRequest, res: Response, next: NextFunction)
   next()
 }
 const cacheData = async (req: SearchRequest, res: Response) => {
-  await client.set("cache/characters", JSON.stringify(req.locals!.data))
+  console.log(`Caching: ${req.query.q}`)
+  await client.set(getRedisKey(req), JSON.stringify(req.locals!.data))
   return res.json(req.locals!.data)
 }
 
