@@ -1,6 +1,6 @@
 import axios from "axios"
 
-export class FacebookAPI implements SocialAPI<any> {
+export class FacebookAPI implements SocialAPI<any, any> {
   url = `https://api.apify.com/v2/acts/apify~facebook-search-scraper/run-sync-get-dataset-items?token=${process.env.APIFY_KEY}`
 
   async fetchData(search: string) {
@@ -15,7 +15,7 @@ export class FacebookAPI implements SocialAPI<any> {
     return data
   }
   processData(data: any) {
-    const processedData = {...data}
+    const processedData = [...data]
     
     return processedData
   }

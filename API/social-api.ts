@@ -1,5 +1,5 @@
-interface SocialAPI<RawData> {
+interface SocialAPI<RawData, DashBoard> {
   readonly url: string
-  fetchData (search: string): any
-  processData(data: RawData): RawData
+  fetchData (search: string): Promise<RawData[]>
+  processData(data: RawData[]): DashBoard
 }

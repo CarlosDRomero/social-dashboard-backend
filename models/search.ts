@@ -13,7 +13,7 @@ interface SearchQueryParams {
 interface SearchRequest extends Request<SearchParams, any, any, SearchQueryParams> {
   locals?: {
     redisKey?: string
-    data?: string
+    data?: any
     alreadyCached?: boolean
   }
 }
