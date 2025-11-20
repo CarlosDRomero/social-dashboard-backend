@@ -1,5 +1,5 @@
+import "dotenv/config"
 import express, { Request, Response, Router } from "express";
-import axios from 'axios'
 import responseTime from 'response-time'
 import client from "./cache/redis-client";
 import searchRouter from "./routes/search";

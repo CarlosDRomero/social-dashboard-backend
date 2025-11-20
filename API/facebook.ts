@@ -1,16 +1,21 @@
 import axios from "axios"
-import replaceSearch from "./utils/replaceSearch"
 
 export class FacebookAPI implements SocialAPI<any> {
-  url = "https://rickandmortyapi.com/api/character"
+  url = `https://api.apify.com/v2/acts/apify~facebook-search-scraper/run-sync-get-dataset-items?token=${process.env.APIFY_KEY}`
 
   async fetchData(search: string) {
-    const { data } = await axios.get(replaceSearch(this.url, search))
+    const { data } = await axios.post(this.url, {
+      categories: [
+        search
+      ],
+      resultsLimit: 8,
+      locations: []
+    }, {timeout: 9999999})
 
-    return this.processData(data)
+    return data
   }
   processData(data: any) {
-    const processedData = {processedBy: "facebook api", ...data}
+    const processedData = {...data}
     
     return processedData
   }

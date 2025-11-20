@@ -12,13 +12,16 @@ const getRedisKey = (req: SearchRequest) => {
 }
 const checkCache = async (req: SearchRequest, res: Response, next: NextFunction) => {
   const cached = await client.get(getRedisKey(req))
-  if (cached) return res.json(JSON.parse(cached))
+  if (cached) {
+    req.locals!.data = JSON.parse(cached)
+    req.locals!.alreadyCached = true
+  }
   next()
 }
 const cacheData = async (req: SearchRequest, res: Response) => {
-  console.log(`Caching: ${req.query.q}`)
-  await client.set(getRedisKey(req), JSON.stringify(req.locals!.data))
-  return res.json(req.locals!.data)
+    console.log(`Caching: ${getRedisKey(req)}`)
+    await client.set(getRedisKey(req), JSON.stringify(req.locals!.data))
+
 }
 
 export {

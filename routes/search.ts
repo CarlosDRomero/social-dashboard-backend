@@ -15,23 +15,35 @@ const validateSearchRequest = (req: SearchRequest, res: Response, next: NextFunc
   
   next()
 }
-const fetchAPIData = async (req: SearchRequest, res: Response, next: NextFunction) => {
+
+const alreadyCachedSkipped = (middleware: (req: SearchRequest, res: Response) => any) => 
+  async (req: SearchRequest, res: Response, next: NextFunction) => {
+    if (!req.locals!.alreadyCached)
+      await middleware(req, res)
+    next()
+  }
+
+const fetchAPIData = async (req: SearchRequest, res: Response) => {
   const api = getAPI(req.params.apiName)
   req.locals!.data = await api.fetchData(req.query.q)
-  next()
+}
+const processAPIData = (req: SearchRequest, res: Response) => {
+  const api = getAPI(req.params.apiName)
+  req.locals!.data = api.processData(req.locals!.data)
+  return res.json(req.locals!.data)
 }
 
 const locals = async (req: SearchRequest, res: Response, next: NextFunction) => {
   req.locals = {}
   next()
 }
-
 searchRouter.get("/:apiName",
   locals,
   validateSearchRequest, 
   checkCache,
-  fetchAPIData,
-  cacheData
+  alreadyCachedSkipped(fetchAPIData),
+  alreadyCachedSkipped(cacheData),
+  processAPIData
 )
 
 

@@ -14,6 +14,7 @@ interface SearchRequest extends Request<SearchParams, any, any, SearchQueryParam
   locals?: {
     redisKey?: string
     data?: string
+    alreadyCached?: boolean
   }
 }
 
