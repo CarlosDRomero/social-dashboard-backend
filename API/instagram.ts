@@ -1,27 +1,14 @@
 import axios from "axios"
 import replaceSearch from "./utils/replaceSearch"
+import { generateNRandomPostStats } from "./utils/generateRandomPostStats";
 
-interface InstagramDashBoardData {
-  mentions: number;
-  comments: number;
-  reactions: number;
-}
 
-export class InstagramAPI implements SocialAPI<any, InstagramDashBoardData> {
+export class InstagramAPI implements SocialAPI {
   url = "https://rickandmortyapi.com/api/character"
 
   async fetchData(search: string) {
-    const { data } = await axios.get(replaceSearch(this.url, search))
-    
+    let { data } = await axios.get(replaceSearch(this.url, search))
+    data = generateNRandomPostStats(Math.floor(Math.random() * 100))
     return data
-  }
-  processData(data: any) {
-    // const processedData = [...data]
-    const processedData = data = {
-        mentions: Math.floor(Math.random() * 200),
-        comments: Math.floor(Math.random() * 400),
-        reactions: Math.floor(Math.random() * 900)
-    }
-    return processedData
   }
 }

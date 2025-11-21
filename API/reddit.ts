@@ -1,25 +1,18 @@
 import axios from "axios"
 import replaceSearch from "./utils/replaceSearch"
-interface RedditDashBoardData {
+import { generateNRandomPostStats } from "./utils/generateRandomPostStats";
+interface RedditData {
   mentions: number;
   comments: number;
   reactions: number;
+  publishedAt: Date;
 }
-export class RedditAPI implements SocialAPI<any, RedditDashBoardData> {
+export class RedditAPI implements SocialAPI {
   url = "https://rickandmortyapi.com/api/character"
 
   async fetchData(search: string) {
-    const { data } = await axios.get(replaceSearch(this.url, search))
-    
+    let { data } = await axios.get<RedditData[]>(replaceSearch(this.url, search))
+    data = generateNRandomPostStats(Math.floor(50 + Math.random() * 100))
     return data
-  }
-  processData(data: any) {
-    // const processedData = [...data]
-    const processedData = data = {
-        mentions: Math.floor(Math.random() * 200),
-        comments: Math.floor(Math.random() * 400),
-        reactions: Math.floor(Math.random() * 900)
-    }
-    return processedData
   }
 }

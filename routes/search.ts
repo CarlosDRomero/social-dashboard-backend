@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from "express"
 import { SearchRequest, apiNamesArray } from "../models/search"
-import { cacheData, checkCache } from "../cache/middlewares"
+import { cacheData, checkCache, sendData } from "../cache/middlewares"
 import { getAPI } from "../API"
 
 const searchRouter = Router()
@@ -27,12 +27,6 @@ const fetchAPIData = async (req: SearchRequest, res: Response) => {
   const api = getAPI(req.params.apiName)
   req.locals!.data = await api.fetchData(req.query.q)
 }
-const processAPIData = (req: SearchRequest, res: Response) => {
-  const api = getAPI(req.params.apiName)
-  req.locals!.data = api.processData(req.locals!.data)
-  return res.json(req.locals!.data)
-}
-
 const locals = async (req: SearchRequest, res: Response, next: NextFunction) => {
   req.locals = {}
   next()
@@ -43,7 +37,7 @@ searchRouter.get("/:apiName",
   checkCache,
   alreadyCachedSkipped(fetchAPIData),
   alreadyCachedSkipped(cacheData),
-  processAPIData
+  sendData
 )
 
 

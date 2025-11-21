@@ -19,11 +19,13 @@ const checkCache = async (req: SearchRequest, res: Response, next: NextFunction)
   next()
 }
 const cacheData = async (req: SearchRequest, res: Response) => {
-    console.log(`Caching: ${getRedisKey(req)}`)
-    await client.set(getRedisKey(req), JSON.stringify(req.locals!.data))
-
+  console.log(`Caching: ${getRedisKey(req)}`)
+  await client.set(getRedisKey(req), JSON.stringify(req.locals!.data))
+}
+const sendData = (req: SearchRequest, res: Response) => {
+  return res.json(req.locals!.data)
 }
 
 export {
-  checkCache, cacheData
+  checkCache, cacheData, sendData
 }
