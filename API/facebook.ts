@@ -1,7 +1,8 @@
 import axios from "axios"
 
 export class FacebookAPI implements SocialAPI {
-  url = `https://api.apify.com/v2/acts/apify~facebook-search-scraper/run-sync-get-dataset-items?token=${process.env.APIFY_KEY}`
+  url = `
+https://api.apify.com/v2/acts/apify~instagram-hashtag-scraper/run-sync-get-dataset-items?token=${process.env.APIFY_KEY}`
 
   async fetchData(search: string) {
     const { data } = await axios.post(this.url, {
@@ -13,10 +14,5 @@ export class FacebookAPI implements SocialAPI {
     }, {timeout: 9999999})
 
     return data
-  }
-  processData(data: any) {
-    const processedData = [...data]
-    
-    return processedData
   }
 }

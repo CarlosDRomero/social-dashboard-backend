@@ -1,12 +1,14 @@
 import { APINamesType } from "../models/search";
 import { FacebookAPI } from "./facebook";
-import { InstagramAPI } from "./instagram";
+import { TikTokAPI } from "./tiktok";
 import { RedditAPI } from "./reddit";
+import { InstagramAPI } from "./instagram";
 
 export const getAPI = (apiName: APINamesType) => {
   switch (apiName) {
     case "facebook": return new FacebookAPI()
-    case "instagram": return new InstagramAPI()
+    case "tiktok": return new TikTokAPI()
     case "reddit": return new RedditAPI()
+    case "instagram": return new InstagramAPI()
   }
 }

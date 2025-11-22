@@ -1,14 +1,20 @@
 import axios from "axios"
 import replaceSearch from "./utils/replaceSearch"
-import { generateNRandomPostStats } from "./utils/generateRandomPostStats";
-
 
 export class InstagramAPI implements SocialAPI {
-  url = "https://rickandmortyapi.com/api/character"
+  url = `
+https://api.apify.com/v2/acts/apify~instagram-hashtag-scraper/run-sync-get-dataset-items?token=${process.env.INSTA_APIFY}`
 
   async fetchData(search: string) {
-    let { data } = await axios.get(replaceSearch(this.url, search))
-    data = generateNRandomPostStats(Math.floor(Math.random() * 100))
+    const { data } = await axios.post(this.url, {
+    hashtags: [
+      search
+    ],
+    keywordSearch: true,
+    resultsLimit: 10,
+    resultsType: "stories"
+    }, {timeout: 9999999})
+
     return data
   }
 }

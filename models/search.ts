@@ -1,6 +1,6 @@
 import { Request } from "express"
 
-const apiNamesArray = ["facebook", "instagram", "reddit"] as const
+const apiNamesArray = ["facebook", "tiktok", "reddit", "instagram"] as const
 type APINamesType = typeof apiNamesArray[number]
 
 interface SearchParams {
