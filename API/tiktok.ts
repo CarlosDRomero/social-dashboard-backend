@@ -58,13 +58,13 @@ export class TikTokAPI implements SocialAPI {
     }
     while (true) {
       const data = await this.snapshotAPI.fetchData(snapshotId);
-      if (data.status !== "running") {
+      if (data.status !== "closing" && data.status !== "running") {
         // Ya terminó → retornamos la data completa
         return data;
       }
 
       console.log(`tiktok/${search}... esperando 15s`);
-      await wait(15000); // ⏲ esperar 15 segundos
+      await wait(15000);
     }
   }
 }

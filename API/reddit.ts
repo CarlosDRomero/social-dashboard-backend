@@ -12,7 +12,7 @@ export class RedditAPI implements SocialAPI {
 
   async fetchData(search: string) {
     let { data } = await axios.get<RedditData[]>(replaceSearch(this.url, search))
-    data = generateNRandomPostStats(Math.floor(50 + Math.random() * 100))
+    data = generateNRandomPostStats(Math.floor(1000 + Math.random() * 2000))
     return data
   }
 }
